@@ -1,0 +1,37 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Create Job{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Post a New Job</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if needs_company %}
+        <h3 style="margin: 1rem 0 .5rem;">Company Information</h3>
+        <p style="margin-bottom: 1rem; color: #666;">Create your company profile before posting your first job.</p>
+        {{ company_form.as_p }}
+        <hr style="margin: 1.5rem 0;">
+        {% else %}
+        <p style="margin-bottom: 1rem;">
+            <label for="company">Select Company</label>
+            <select name="company" id="company" required>
+                {% for company in companies %}
+                <option value="{{ company.pk }}">{{ company.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        {% endif %}
+
+        <h3 style="margin: 1rem 0 .5rem;">Job Details</h3>
+        {{ form.as_p }}
+
+        <div class="actions">
+            <button type="submit" class="btn">Create Job</button>
+            <a href="{% url 'my_jobs' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

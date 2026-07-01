@@ -1,0 +1,19 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Delete Job - {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Delete Job</h2>
+    <p>Are you sure you want to delete <strong>{{ job.title }}</strong> at {{ job.company.name }}?</p>
+    <p style="color: #721c24; margin: 1rem 0;">This action cannot be undone. All associated applications will also be deleted.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            <a href="{% url 'my_jobs' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Job Portal{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, sans-serif; line-height: 1.6; color: #1a1a2e; background: #f4f6f8; }
+        nav { background: #16213e; color: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: #e94560; text-decoration: none; margin-left: 1rem; }
+        nav a:hover { text-decoration: underline; }
+        .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.08); margin-bottom: 1rem; }
+        h1, h2 { margin-bottom: 1rem; color: #16213e; }
+        .messages { list-style: none; margin-bottom: 1rem; }
+        .messages li { padding: .75rem 1rem; border-radius: 6px; margin-bottom: .5rem; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .btn { display: inline-block; padding: .5rem 1rem; background: #e94560; color: #fff; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: .95rem; }
+        .btn:hover { background: #c73652; }
+        .btn-secondary { background: #16213e; }
+        .btn-secondary:hover { background: #0f3460; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #b02a37; }
+        form p { margin-bottom: .75rem; }
+        form label { display: block; font-weight: 600; margin-bottom: .25rem; }
+        form input, form select, form textarea { width: 100%; padding: .5rem; border: 1px solid #ccc; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: .75rem; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; }
+        .badge { display: inline-block; padding: .2rem .6rem; border-radius: 12px; font-size: .8rem; font-weight: 600; }
+        .badge-active { background: #d4edda; color: #155724; }
+        .badge-inactive { background: #f8d7da; color: #721c24; }
+        .actions { margin-top: 1rem; display: flex; gap: .5rem; flex-wrap: wrap; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-card { background: #16213e; color: #fff; padding: 1.25rem; border-radius: 8px; text-align: center; }
+        .stat-card h3 { font-size: 2rem; margin-bottom: .25rem; color: #e94560; }
+    </style>
+</head>
+<body>
+    <nav>
+        <strong>Job Portal</strong>
+        <div>
+            <a href="{% url 'job_list' %}">Browse Jobs</a>
+            {% if user.is_authenticated %}
+                {% if user.profile.role == 'employer' %}
+                    <a href="{% url 'employer_dashboard' %}">Dashboard</a>
+                    <a href="{% url 'my_jobs' %}">My Jobs</a>
+                    <a href="{% url 'create_job' %}">Post Job</a>
+                {% elif user.profile.role == 'jobseeker' %}
+                    <a href="{% url 'jobseeker_dashboard' %}">Dashboard</a>
+                    <a href="{% url 'my_applications' %}">My Applications</a>
+                {% endif %}
+                <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

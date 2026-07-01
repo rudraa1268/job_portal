@@ -1,0 +1,9 @@
+.venv/
+jobenv/
+__pycache__/
+*.pyc
+db.sqlite3
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+.env

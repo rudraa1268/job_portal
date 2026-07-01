@@ -1,0 +1,49 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Job Seeker Dashboard{% endblock %}
+
+{% block content %}
+<h1>Job Seeker Dashboard</h1>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>{{ application_count }}</h3>
+        <p>Applications Submitted</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ active_jobs_count }}</h3>
+        <p>Active Jobs Available</p>
+    </div>
+</div>
+
+<div class="actions">
+    <a href="{% url 'job_list' %}" class="btn">Browse Jobs</a>
+    <a href="{% url 'my_applications' %}" class="btn btn-secondary">Track Applications</a>
+</div>
+
+{% if recent_applications %}
+<div class="card" style="margin-top: 1.5rem;">
+    <h2>Recent Applications</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Job</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Applied</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in recent_applications %}
+            <tr>
+                <td><a href="{% url 'job_detail' app.job.pk %}">{{ app.job.title }}</a></td>
+                <td>{{ app.job.company.name }}</td>
+                <td>{{ app.get_status_display }}</td>
+                <td>{{ app.applied_at|date:"M d, Y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

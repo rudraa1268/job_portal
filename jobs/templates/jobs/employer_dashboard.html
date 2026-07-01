@@ -1,0 +1,59 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Employer Dashboard{% endblock %}
+
+{% block content %}
+<h1>Employer Dashboard</h1>
+
+<div class="stats">
+    <div class="stat-card">
+        <h3>{{ job_count }}</h3>
+        <p>Total Jobs</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ active_job_count }}</h3>
+        <p>Active Jobs</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ application_count }}</h3>
+        <p>Applications Received</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ companies.count }}</h3>
+        <p>Companies</p>
+    </div>
+</div>
+
+<div class="actions">
+    <a href="{% url 'create_job' %}" class="btn">Post New Job</a>
+    <a href="{% url 'my_jobs' %}" class="btn btn-secondary">Manage Jobs</a>
+</div>
+
+{% if recent_applications %}
+<div class="card" style="margin-top: 1.5rem;">
+    <h2>Recent Applications</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Applicant</th>
+                <th>Job</th>
+                <th>Status</th>
+                <th>Applied</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in recent_applications %}
+            <tr>
+                <td>{{ app.applicant.username }}</td>
+                <td>{{ app.job.title }}</td>
+                <td>{{ app.get_status_display }}</td>
+                <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                <td><a href="{% url 'update_application_status' app.pk %}">Update</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

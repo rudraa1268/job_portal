@@ -1,0 +1,26 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Update Application Status{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Update Application Status</h2>
+    <p><strong>Applicant:</strong> {{ application.applicant.username }}</p>
+    <p><strong>Job:</strong> {{ application.job.title }}</p>
+    <p><strong>Current Status:</strong> {{ application.get_status_display }}</p>
+
+    {% if application.cover_letter %}
+    <h3 style="margin: 1rem 0 .5rem;">Cover Letter</h3>
+    <p style="white-space: pre-line; background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">{{ application.cover_letter }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions">
+            <button type="submit" class="btn">Update Status</button>
+            <a href="{% url 'applicants_list' application.job.pk %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

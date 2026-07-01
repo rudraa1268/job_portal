@@ -1,0 +1,25 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Register - Job Portal{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 480px; margin: 0 auto;">
+    <h2>Create Account</h2>
+    <p>Register as an Employer or Job Seeker.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if form.non_field_errors %}
+            <ul class="messages">
+                {% for error in form.non_field_errors %}
+                    <li class="error">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <button type="submit" class="btn">Register</button>
+    </form>
+
+    <p style="margin-top: 1rem;">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+{% endblock %}

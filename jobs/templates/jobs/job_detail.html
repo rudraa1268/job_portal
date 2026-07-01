@@ -1,0 +1,36 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}{{ job.title }} - Job Portal{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ job.title }}</h1>
+    <p><strong>{{ job.company.name }}</strong></p>
+    <p>{{ job.location }}{% if job.salary %} &middot; Salary: ${{ job.salary }}{% endif %}</p>
+    <p style="color: #666; margin-bottom: 1rem;">Posted {{ job.created_at|date:"M d, Y" }}</p>
+
+    {% if job.company.description %}
+    <h3>About the Company</h3>
+    <p style="margin-bottom: 1rem;">{{ job.company.description }}</p>
+    {% endif %}
+
+    {% if job.company.website %}
+    <p style="margin-bottom: 1rem;"><a href="{{ job.company.website }}" target="_blank">Company Website</a></p>
+    {% endif %}
+
+    <h3>Job Description</h3>
+    <p style="white-space: pre-line; margin-bottom: 1.5rem;">{{ job.description }}</p>
+
+    <div class="actions">
+        <a href="{% url 'job_list' %}" class="btn btn-secondary">Back to Jobs</a>
+        {% if user.is_authenticated and user.profile.role == 'jobseeker' %}
+            {% if has_applied %}
+                <span class="badge badge-active">Already Applied</span>
+                <a href="{% url 'my_applications' %}" class="btn">View My Applications</a>
+            {% else %}
+                <a href="{% url 'apply_job' job.pk %}" class="btn">Apply Now</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

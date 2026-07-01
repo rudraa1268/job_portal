@@ -1,0 +1,24 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}Browse Jobs{% endblock %}
+
+{% block content %}
+<h1>Browse Jobs</h1>
+
+{% if jobs %}
+    {% for job in jobs %}
+    <div class="card">
+        <h2><a href="{% url 'job_detail' job.pk %}" style="color: #16213e; text-decoration: none;">{{ job.title }}</a></h2>
+        <p><strong>{{ job.company.name }}</strong> &middot; {{ job.location }}
+            {% if job.salary %} &middot; ${{ job.salary }}{% endif %}
+        </p>
+        <p>{{ job.description|truncatewords:30 }}</p>
+        <a href="{% url 'job_detail' job.pk %}" class="btn">View Details</a>
+    </div>
+    {% endfor %}
+{% else %}
+<div class="card">
+    <p>No active jobs available at the moment. Check back later!</p>
+</div>
+{% endif %}
+{% endblock %}

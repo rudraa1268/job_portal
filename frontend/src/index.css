@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0B1221;
+  --surface: #131B34;
+  --paper: #F7F5F2;
+  --coral: #FF4D6D;
+  --amber: #FFB020;
+  --slate: #5C6478;
+  --ink-text: #0B1221;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink-text font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none;
+    background-color: var(--coral);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: #e63956;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--coral);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none;
+    border: 1px solid rgba(92, 100, 120, 0.3);
+    background-color: var(--paper);
+    color: var(--ink-text);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: rgba(92, 100, 120, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  }
+  .btn-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--coral);
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-all duration-150 ease-in-out disabled:cursor-not-allowed disabled:opacity-60;
+    background-color: #ef4444;
+  }
+  .btn-danger:hover:not(:disabled) {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  .btn-danger:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px #ef4444;
+  }
+
+  .input-field {
+    @apply w-full rounded-lg text-sm outline-none transition-all duration-150 ease-in-out;
+    border: 1px solid rgba(92, 100, 120, 0.2);
+    background-color: var(--paper);
+    color: var(--ink-text);
+    padding: 0.625rem 0.75rem;
+  }
+  .input-field:focus {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.15);
+    outline: none;
+  }
+
+  .label-field {
+    @apply mb-1 block text-sm font-medium;
+    color: var(--slate);
+  }
+
+  .card {
+    @apply rounded-xl transition-all duration-150 ease-in-out;
+    border: 1px solid rgba(92, 100, 120, 0.15);
+    background-color: var(--paper);
+    padding: 1.5rem;
+  }
+  
+  /* Underline animation for nav links */
+  .nav-link-anim {
+    @apply relative transition-colors duration-150;
+  }
+  .nav-link-anim::after {
+    content: '';
+    @apply absolute w-full h-[2px] bottom-[-4px] left-0 bg-coral origin-bottom-right scale-x-0 transition-transform duration-150 ease-out;
+  }
+  .nav-link-anim:hover::after,
+  .nav-link-anim.active::after {
+    @apply origin-bottom-left scale-x-100;
+  }
+
+  /* Dot grid pattern utility */
+  .dot-grid {
+    position: relative;
+  }
+  .dot-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 77, 109, 0.15) 1px, transparent 1px);
+    background-size: 16px 16px;
+    pointer-events: none;
+  }
+
+  .dot-grid-dark {
+    position: relative;
+  }
+  .dot-grid-dark::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--coral) 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+}

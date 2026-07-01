@@ -1,0 +1,39 @@
+{% extends 'jobs/base.html' %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<h1>My Applications</h1>
+
+{% if applications %}
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Job</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Applied</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                <td>{{ app.job.title }}</td>
+                <td>{{ app.job.company.name }}</td>
+                <td>{{ app.get_status_display }}</td>
+                <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                <td><a href="{% url 'job_detail' app.job.pk %}">View Job</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card">
+    <p>You haven't applied to any jobs yet.</p>
+    <a href="{% url 'job_list' %}" class="btn" style="margin-top: 1rem;">Browse Jobs</a>
+</div>
+{% endif %}
+{% endblock %}
