@@ -11,22 +11,18 @@ const api = axios.create({
 });
 
 let csrfInitialized = false;
+let csrfToken = null;
 
 export async function initCsrf() {
   if (csrfInitialized) return;
-  await api.get('/auth/csrf/');
+  const response = await api.get('/auth/csrf/');
+  csrfToken = response.data.csrfToken;
   csrfInitialized = true;
 }
 
-function getCsrfToken() {
-  const match = document.cookie.match(/csrftoken=([^;]+)/);
-  return match ? decodeURIComponent(match[1]) : null;
-}
-
 api.interceptors.request.use((config) => {
-  const token = getCsrfToken();
-  if (token && ['post', 'put', 'patch', 'delete'].includes(config.method?.toLowerCase())) {
-    config.headers['X-CSRFToken'] = token;
+  if (csrfToken && ['post', 'put', 'patch', 'delete'].includes(config.method?.toLowerCase())) {
+    config.headers['X-CSRFToken'] = csrfToken;
   }
   return config;
 });
